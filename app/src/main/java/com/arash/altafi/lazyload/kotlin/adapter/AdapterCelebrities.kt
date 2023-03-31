@@ -9,23 +9,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.arash.altafi.lazyload.R
 import com.arash.altafi.lazyload.kotlin.model.ResponseCelebrities
-import com.arash.altafi.lazyload.kotlin.utils.OnLoadMoreListenerKotlin
 import com.bumptech.glide.Glide
 
-class AdapterCelebrities(list2: ArrayList<ResponseCelebrities?>, recyclerView: RecyclerView) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class AdapterCelebrities(
+    private val list: ArrayList<ResponseCelebrities?>,
+    recyclerView: RecyclerView
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var list: ArrayList<ResponseCelebrities?> = ArrayList()
-    private var onLoadMoreListener: OnLoadMoreListenerKotlin? = null
+    lateinit var onLoadMoreListener: () -> Unit
     private var sizeIndex = 0
     private var lastVisible = 0
     private val countLoadMore = 2
     private var isLoading = false
 
     init {
-
-        this.list = list2
-
         val layoutManager = recyclerView.layoutManager as LinearLayoutManager?
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -33,9 +30,7 @@ class AdapterCelebrities(list2: ArrayList<ResponseCelebrities?>, recyclerView: R
                 sizeIndex = layoutManager!!.itemCount
                 lastVisible = layoutManager.findLastVisibleItemPosition()
                 if (!isLoading && sizeIndex <= lastVisible + countLoadMore) {
-                    if (onLoadMoreListener != null) {
-                        onLoadMoreListener!!.loadMore()
-                    }
+                    onLoadMoreListener.invoke()
                     isLoading = true
                 }
             }
@@ -44,10 +39,6 @@ class AdapterCelebrities(list2: ArrayList<ResponseCelebrities?>, recyclerView: R
 
     fun setLoading(loading: Boolean) {
         isLoading = loading
-    }
-
-    fun setOnLoadMoreListener(onLoadMoreListener: OnLoadMoreListenerKotlin?) {
-        this.onLoadMoreListener = onLoadMoreListener
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -78,21 +69,17 @@ class AdapterCelebrities(list2: ArrayList<ResponseCelebrities?>, recyclerView: R
 
     override fun getItemCount(): Int = list.size
 
+    inner class KotlinViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val imageView: ImageView = itemView.findViewById(R.id.ivCelebrity)
+    }
+
+    inner class KotlinLoadMoreViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val progressBar: ProgressBar = itemView.findViewById(R.id.pr_Loading_More)
+    }
+
     companion object {
         private const val VIEW_TYPE_RESPONSE = 1
         private const val VIEW_TYPE_LOADMORE = 2
     }
-
-}
-
-class KotlinViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-    val imageView: ImageView = itemView.findViewById(R.id.ivCelebrity)
-
-}
-
-class KotlinLoadMoreViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-    val progressBar: ProgressBar = itemView.findViewById(R.id.pr_Loading_More)
 
 }

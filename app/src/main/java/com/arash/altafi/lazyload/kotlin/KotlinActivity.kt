@@ -12,7 +12,6 @@ import com.arash.altafi.lazyload.kotlin.adapter.AdapterCelebrities
 import com.arash.altafi.lazyload.kotlin.api.ApiClient
 import com.arash.altafi.lazyload.kotlin.api.ApiService
 import com.arash.altafi.lazyload.kotlin.model.ResponseCelebrities
-import com.arash.altafi.lazyload.kotlin.utils.OnLoadMoreListenerKotlin
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -53,30 +52,26 @@ class KotlinActivity : AppCompatActivity() {
 
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun loadData() = binding.apply {
         adapterCelebrities = AdapterCelebrities(responseCelebrities, rcKotlin)
         rcKotlin.adapter = adapterCelebrities
 
-        adapterCelebrities.setOnLoadMoreListener(object : OnLoadMoreListenerKotlin {
-            @SuppressLint("NotifyDataSetChanged")
-            override fun loadMore() {
-                if (responseCelebrities.size / 5 == page) {
-                    page++
-                    responseCelebrities.add(null)
-//                    responseCelebrities.clear()
-                    loadIndex = responseCelebrities.size - 1
-                    adapterCelebrities.notifyDataSetChanged()
-                    Handler(Looper.myLooper()!!).postDelayed({
-                        getData()
-                    }, 2000)
+        adapterCelebrities.onLoadMoreListener = {
+            if (responseCelebrities.size / 5 == page) {
+                page++
+                responseCelebrities.add(null)
+                loadIndex = responseCelebrities.size - 1
+                adapterCelebrities.notifyDataSetChanged()
+                Handler(Looper.myLooper()!!).postDelayed({
+                    getData()
+                }, 2000)
 //                    Handler(Looper.myLooper()!!).postDelayed({
 //                        postData()
 //                    }, 2000)
 
-                }
             }
-        })
-
+        }
     }
 
     //with get method

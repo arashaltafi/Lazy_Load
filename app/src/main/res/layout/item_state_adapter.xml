@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipToPadding="false"
+    android:gravity="center"
+    android:padding="16dp">
+
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/prgLoadState"
+        style="@style/AVLoadingIndicatorView.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        app:indicatorColor="?colorPrimary"
+        app:indicatorName="BallSpinFadeLoaderIndicator" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/txtRetryLoadState"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="32dp"
+        android:gravity="center"
+        android:text="server is not access"
+        android:textColor="?android:textColorHint" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnRetryLoadState"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="32dp"
+        android:text="try again" />
+
+</RelativeLayout>

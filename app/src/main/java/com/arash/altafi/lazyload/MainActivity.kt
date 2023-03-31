@@ -4,8 +4,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.arash.altafi.lazyload.databinding.ActivityMainBinding
-import com.arash.altafi.lazyload.java.JavaActivity
-import com.arash.altafi.lazyload.kotlin.KotlinActivity
+import com.arash.altafi.lazyload.newWay.kotlin.KotlinNewActivity
+import com.arash.altafi.lazyload.oldWay.java.JavaOldActivity
+import com.arash.altafi.lazyload.oldWay.kotlin.KotlinOldActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,12 +22,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun init() = binding.apply {
-        btnJava.setOnClickListener {
-            startActivity(Intent(this@MainActivity, JavaActivity::class.java))
+        //Old Way
+        btnOldWayJava.setOnClickListener {
+            startActivity(Intent(this@MainActivity, JavaOldActivity::class.java))
         }
 
-        btnKotlin.setOnClickListener {
-            startActivity(Intent(this@MainActivity, KotlinActivity::class.java))
+        btnOldWayKotlin.setOnClickListener {
+            startActivity(Intent(this@MainActivity, KotlinOldActivity::class.java))
+        }
+
+        //New Way
+        btnNewWayKotlin.setOnClickListener {
+            startActivity(Intent(this@MainActivity, KotlinNewActivity::class.java))
         }
     }
 

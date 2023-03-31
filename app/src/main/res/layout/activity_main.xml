@@ -10,17 +10,32 @@
     android:padding="50dp"
     tools:context=".MainActivity">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnJava"
-        android:layout_width="match_parent"
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="sample in java" />
+        android:text="Lazy Load / Paging"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnKotlin"
+        android:id="@+id/btnOldWayJava"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="sample in kotlin" />
+        android:layout_marginTop="48dp"
+        android:text="Sample old Way in Java" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnOldWayKotlin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Sample old Way in Kotlin" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnNewWayKotlin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:text="Sample New Way in Kotlin" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

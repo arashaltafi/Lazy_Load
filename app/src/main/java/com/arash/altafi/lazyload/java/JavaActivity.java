@@ -50,7 +50,6 @@ public class JavaActivity extends AppCompatActivity {
         bindViews();
         loadData();
         new Handler().postDelayed(this::getData, 500);
-//        new Handler().postDelayed(this::postData,500);
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -67,20 +66,18 @@ public class JavaActivity extends AppCompatActivity {
 
                 Handler handler = new Handler();
                 handler.postDelayed(this::getData, 2000);
-//                    handler.postDelayed(() -> postData(), 2000);
             }
         });
     }
 
-    //with get method
     private void getData() {
         if (page == 1) {
             progressBar.setVisibility(View.VISIBLE);
         }
-        apiService.lazyLoad("ارسلان قاسمی", page, 5)
+        apiService.lazyLoad("الناز شاکردوست", page, 5)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<List<ResponseCelebritiesJava>>() {
+                .subscribe(new SingleObserver<>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
                         compositeDisposable.add(d);
@@ -105,40 +102,6 @@ public class JavaActivity extends AppCompatActivity {
                     }
                 });
 
-    }
-
-    //with post method
-    private void postData() {
-        if (page == 1) {
-            progressBar.setVisibility(View.VISIBLE);
-        }
-        apiService.lazyLoad2("الناز شاکردوست", page, 5)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<List<ResponseCelebritiesJava>>() {
-                    @Override
-                    public void onSubscribe(@NonNull Disposable d) {
-                        compositeDisposable.add(d);
-                    }
-
-                    @SuppressLint("NotifyDataSetChanged")
-                    @Override
-                    public void onSuccess(@NonNull List<ResponseCelebritiesJava> responseCelebritiesJavas) {
-                        if (page != 1) {
-                            responseCelebrities.remove(loadIndex);
-                            adapterCelebrities.notifyItemRemoved(loadIndex);
-                        }
-                        responseCelebrities.addAll(responseCelebritiesJavas);
-                        adapterCelebrities.notifyDataSetChanged();
-                        adapterCelebrities.setLoading(false);
-                        progressBar.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-                        Toast.makeText(JavaActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                });
     }
 
     private void bindViews() {

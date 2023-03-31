@@ -13,12 +13,4 @@ interface ApiService {
         @Query("per_page") perPage: Int
     ): Single<List<ResponseCelebrities>>
 
-    @FormUrlEncoded
-    @POST("lazy_load/LazyLoad.php")
-    fun lazyLoad2(
-        @Field("name") name: String,
-        @Query("page") pageCount: Int,
-        @Query("per_page") perPage: Int
-    ): Single<List<ResponseCelebrities>>
-
 }

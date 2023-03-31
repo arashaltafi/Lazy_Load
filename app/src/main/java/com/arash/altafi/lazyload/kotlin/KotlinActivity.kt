@@ -45,11 +45,6 @@ class KotlinActivity : AppCompatActivity() {
         Handler(Looper.myLooper()!!).postDelayed({
             getData()
         }, 500)
-
-//        Handler(Looper.myLooper()!!).postDelayed({
-//            postData()
-//        }, 500)
-
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -66,10 +61,6 @@ class KotlinActivity : AppCompatActivity() {
                 Handler(Looper.myLooper()!!).postDelayed({
                     getData()
                 }, 2000)
-//                    Handler(Looper.myLooper()!!).postDelayed({
-//                        postData()
-//                    }, 2000)
-
             }
         }
     }
@@ -94,38 +85,6 @@ class KotlinActivity : AppCompatActivity() {
                         adapterCelebrities.notifyItemRemoved(loadIndex)
                     }
                     responseCelebrities.addAll(t)
-                    adapterCelebrities.notifyDataSetChanged()
-                    adapterCelebrities.setLoading(false)
-                    progressKotlin.visibility = View.GONE
-                }
-
-                override fun onError(e: Throwable) {
-                    Toast.makeText(this@KotlinActivity, e.message, Toast.LENGTH_LONG).show()
-                }
-
-            })
-    }
-
-    //with post method
-    private fun postData() = binding.apply {
-        if (page == 1) {
-            progressKotlin.visibility = View.VISIBLE
-        }
-        apiService.lazyLoad2("مریلا زارعی", page, 5)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : SingleObserver<List<ResponseCelebrities>> {
-                override fun onSubscribe(d: Disposable) {
-                    compositeDisposable.add(d)
-                }
-
-                @SuppressLint("NotifyDataSetChanged")
-                override fun onSuccess(t: List<ResponseCelebrities>) {
-                    if (page != 1) {
-                        responseCelebrities.removeAt(loadIndex)
-                        adapterCelebrities.notifyItemRemoved(loadIndex)
-                    }
-                    responseCelebrities.addAll(responseCelebrities)
                     adapterCelebrities.notifyDataSetChanged()
                     adapterCelebrities.setLoading(false)
                     progressKotlin.visibility = View.GONE

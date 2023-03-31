@@ -12,7 +12,8 @@ import com.arash.altafi.lazyload.kotlin.model.ResponseCelebrities
 import com.arash.altafi.lazyload.kotlin.utils.OnLoadMoreListenerKotlin
 import com.bumptech.glide.Glide
 
-class AdapterCelebrities(list2: ArrayList<ResponseCelebrities?>, recyclerView: RecyclerView) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class AdapterCelebrities(list2: ArrayList<ResponseCelebrities?>, recyclerView: RecyclerView) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var list: ArrayList<ResponseCelebrities?> = ArrayList()
     private var onLoadMoreListener: OnLoadMoreListenerKotlin? = null
@@ -55,11 +56,12 @@ class AdapterCelebrities(list2: ArrayList<ResponseCelebrities?>, recyclerView: R
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         if (viewType == VIEW_TYPE_RESPONSE) {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.layout_bazigar, parent, false)
+            val view =
+                LayoutInflater.from(parent.context).inflate(R.layout.layout_bazigar, parent, false)
             return KotlinViewHolder(view)
-        }
-        else if (viewType == VIEW_TYPE_LOADMORE) {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.item_load_more, parent, false)
+        } else if (viewType == VIEW_TYPE_LOADMORE) {
+            val view =
+                LayoutInflater.from(parent.context).inflate(R.layout.item_load_more, parent, false)
             return KotlinLoadMoreViewHolder(view)
         }
         return null!!
@@ -69,8 +71,7 @@ class AdapterCelebrities(list2: ArrayList<ResponseCelebrities?>, recyclerView: R
         if (holder is KotlinViewHolder) {
             val celebrity = list[position]
             Glide.with(holder.itemView.context).load(celebrity!!.image).into(holder.imageView)
-        }
-        else if (holder is KotlinLoadMoreViewHolder) {
+        } else if (holder is KotlinLoadMoreViewHolder) {
             (holder).progressBar.isIndeterminate = true
         }
     }
@@ -84,14 +85,14 @@ class AdapterCelebrities(list2: ArrayList<ResponseCelebrities?>, recyclerView: R
 
 }
 
-class KotlinViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
+class KotlinViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    val imageView : ImageView = itemView.findViewById(R.id.image_celebrity)
+    val imageView: ImageView = itemView.findViewById(R.id.ivCelebrity)
 
 }
 
-class KotlinLoadMoreViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
+class KotlinLoadMoreViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    val progressBar : ProgressBar = itemView.findViewById(R.id.pr_Loading_More)
+    val progressBar: ProgressBar = itemView.findViewById(R.id.pr_Loading_More)
 
 }

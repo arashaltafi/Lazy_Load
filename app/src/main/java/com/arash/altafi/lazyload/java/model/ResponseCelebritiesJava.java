@@ -4,18 +4,18 @@ import com.google.gson.annotations.SerializedName;
 
 public class ResponseCelebritiesJava {
 
-	@SerializedName("image")
-	private String image;
+    @SerializedName("image")
+    private String image;
 
-	@SerializedName("name")
-	private String name;
+    @SerializedName("name")
+    private String name;
 
-	public String getImage(){
-		return image;
-	}
+    public String getImage() {
+        return image;
+    }
 
-	public String getName(){
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
 }

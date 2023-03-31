@@ -2,7 +2,6 @@ package com.arash.altafi.lazyload.java;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
@@ -11,14 +10,16 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
 import com.arash.altafi.lazyload.R;
 import com.arash.altafi.lazyload.java.adapter.AdapterCelebrities;
 import com.arash.altafi.lazyload.java.api.ApiClient;
 import com.arash.altafi.lazyload.java.api.ApiService;
 import com.arash.altafi.lazyload.java.model.ResponseCelebritiesJava;
-import com.arash.altafi.lazyload.java.utils.OnLoadMoreListener;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -48,29 +49,25 @@ public class JavaActivity extends AppCompatActivity {
     private void init() {
         bindViews();
         loadData();
-        new Handler().postDelayed(this::getData,500);
+        new Handler().postDelayed(this::getData, 500);
 //        new Handler().postDelayed(this::postData,500);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void loadData() {
-        rcJava.setLayoutManager(new GridLayoutManager(getApplicationContext(),1));
         adapterCelebrities = new AdapterCelebrities(JavaActivity.this, rcJava, responseCelebrities);
         rcJava.setAdapter(adapterCelebrities);
 
-        adapterCelebrities.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @SuppressLint("NotifyDataSetChanged")
-            @Override
-            public void loadMore() {
-                if (responseCelebrities.size() / 5 == page) {
-                    page++;
-                    responseCelebrities.add(null);
-                    loadIndex = responseCelebrities.size() - 1;
-                    adapterCelebrities.notifyDataSetChanged();
+        adapterCelebrities.setOnLoadMoreListener(() -> {
+            if (responseCelebrities.size() / 5 == page) {
+                page++;
+                responseCelebrities.add(null);
+                loadIndex = responseCelebrities.size() - 1;
+                adapterCelebrities.notifyDataSetChanged();
 
-                    Handler handler = new Handler();
-                    handler.postDelayed(() -> getData(), 2000);
+                Handler handler = new Handler();
+                handler.postDelayed(this::getData, 2000);
 //                    handler.postDelayed(() -> postData(), 2000);
-                }
             }
         });
     }
@@ -80,7 +77,7 @@ public class JavaActivity extends AppCompatActivity {
         if (page == 1) {
             progressBar.setVisibility(View.VISIBLE);
         }
-        apiService.lazyLoad("ارسلان قاسمی" , page, 5)
+        apiService.lazyLoad("ارسلان قاسمی", page, 5)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleObserver<List<ResponseCelebritiesJava>>() {
@@ -112,11 +109,10 @@ public class JavaActivity extends AppCompatActivity {
 
     //with post method
     private void postData() {
-        if (page == 1)
-        {
+        if (page == 1) {
             progressBar.setVisibility(View.VISIBLE);
         }
-        apiService.lazyLoad2("الناز شاکردوست" , page , 5)
+        apiService.lazyLoad2("الناز شاکردوست", page, 5)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleObserver<List<ResponseCelebritiesJava>>() {
@@ -128,8 +124,7 @@ public class JavaActivity extends AppCompatActivity {
                     @SuppressLint("NotifyDataSetChanged")
                     @Override
                     public void onSuccess(@NonNull List<ResponseCelebritiesJava> responseCelebritiesJavas) {
-                        if (page != 1)
-                        {
+                        if (page != 1) {
                             responseCelebrities.remove(loadIndex);
                             adapterCelebrities.notifyItemRemoved(loadIndex);
                         }
